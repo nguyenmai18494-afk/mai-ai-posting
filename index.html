@@ -6,9 +6,7 @@
   <title>Mai AI Posting</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -45,9 +43,7 @@
       font-size: 14px;
     }
 
-    nav a:hover {
-      color: #111827;
-    }
+    nav a:hover { color: #111827; }
 
     main {
       max-width: 1050px;
@@ -114,11 +110,7 @@
       text-decoration: none;
     }
 
-    .btn-tiktok {
-      background: #111827;
-      color: #ffffff;
-    }
-
+    .btn-tiktok,
     .btn-post {
       background: #111827;
       color: #ffffff;
@@ -153,6 +145,33 @@
       resize: vertical;
     }
 
+    /* Khu vực xem trước ảnh/video */
+    #mediaPreview {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    #previewImage,
+    #previewVideo {
+      display: none;
+      max-width: 360px;
+      max-height: 360px;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      color: #4b5563;
+      font-size: 14px;
+    }
+
     .notice {
       padding: 14px;
       border-radius: 9px;
@@ -182,21 +201,20 @@
     }
 
     @media (max-width: 700px) {
-      .header-inner {
-        display: block;
-      }
+      .header-inner { display: block; }
 
-      nav {
-        margin-top: 15px;
-      }
+      nav { margin-top: 15px; }
 
       nav a {
         margin-left: 0;
         margin-right: 15px;
       }
 
-      .hero h1 {
-        font-size: 30px;
+      .hero h1 { font-size: 30px; }
+
+      #previewImage,
+      #previewVideo {
+        max-width: 100%;
       }
     }
   </style>
@@ -206,17 +224,13 @@
 
 <header>
   <div class="header-inner">
-
-    <div class="logo">
-      Mai AI Posting
-    </div>
+    <div class="logo">Mai AI Posting</div>
 
     <nav>
       <a href="index.html">Trang chủ</a>
       <a href="terms.html">Điều khoản dịch vụ</a>
       <a href="privacy.html">Chính sách bảo mật</a>
     </nav>
-
   </div>
 </header>
 
@@ -224,18 +238,16 @@
 <main>
 
   <section class="hero">
-
     <h1>Mai AI Posting</h1>
 
     <p>
       Ứng dụng hỗ trợ người dùng chuẩn bị, quản lý và đăng nội dung
       giới thiệu sản phẩm lên TikTok sau khi người dùng cấp quyền.
     </p>
-
   </section>
 
 
-  <!-- PHẦN 1 -->
+  <!-- PHẦN 1: KẾT NỐI TIKTOK -->
 
   <section class="card">
 
@@ -246,10 +258,7 @@
       được người dùng cho phép.
     </p>
 
-    <div
-      class="status"
-      id="tiktokStatus"
-    >
+    <div class="status" id="tiktokStatus">
       Trạng thái: Chưa kết nối TikTok
     </div>
 
@@ -261,10 +270,7 @@
       Kết nối với TikTok
     </button>
 
-    <div
-      class="notice"
-      id="connectNotice"
-    >
+    <div class="notice" id="connectNotice">
       Nhấn “Kết nối với TikTok” để cấp quyền cho Mai AI Posting.
       Bạn sẽ được chuyển đến TikTok để xác nhận quyền truy cập.
     </div>
@@ -272,7 +278,7 @@
   </section>
 
 
-  <!-- PHẦN 2 -->
+  <!-- PHẦN 2: CHUẨN BỊ NỘI DUNG -->
 
   <section class="card">
 
@@ -297,6 +303,28 @@
       type="file"
       accept="video/*,image/*"
     >
+
+
+    <!-- XEM TRƯỚC ẢNH / VIDEO -->
+
+    <div id="mediaPreview">
+
+      <img
+        id="previewImage"
+        alt="Ảnh xem trước"
+      >
+
+      <video
+        id="previewVideo"
+        controls
+      ></video>
+
+      <div
+        class="file-info"
+        id="fileInfo"
+      ></div>
+
+    </div>
 
 
     <label for="privacy">
@@ -325,7 +353,7 @@
   </section>
 
 
-  <!-- PHẦN 3 -->
+  <!-- PHẦN 3: XÁC NHẬN -->
 
   <section class="card">
 
@@ -361,22 +389,12 @@
 
 <footer>
 
-  <p>
-    © 2026 Mai AI Posting
-  </p>
+  <p>© 2026 Mai AI Posting</p>
 
   <p>
-
-    <a href="terms.html">
-      Điều khoản dịch vụ
-    </a>
-
+    <a href="terms.html">Điều khoản dịch vụ</a>
     |
-
-    <a href="privacy.html">
-      Chính sách bảo mật
-    </a>
-
+    <a href="privacy.html">Chính sách bảo mật</a>
   </p>
 
 </footer>
@@ -386,7 +404,8 @@
 
   /*
    * URL bắt đầu OAuth.
-   * Client Secret và access token KHÔNG được đặt trong website.
+   * Không đặt Client Secret hoặc access token
+   * trong website GitHub Pages.
    */
 
   const TIKTOK_LOGIN_URL =
@@ -414,9 +433,24 @@
   const postNotice =
     document.getElementById("postNotice");
 
+  const mediaInput =
+    document.getElementById("media");
+
+  const mediaPreview =
+    document.getElementById("mediaPreview");
+
+  const previewImage =
+    document.getElementById("previewImage");
+
+  const previewVideo =
+    document.getElementById("previewVideo");
+
+  const fileInfo =
+    document.getElementById("fileInfo");
+
 
   /*
-   * Người dùng chủ động bắt đầu OAuth.
+   * KẾT NỐI TIKTOK
    */
 
   connectButton.addEventListener(
@@ -431,8 +465,144 @@
 
 
   /*
-   * Kiểm tra kết quả OAuth khi n8n
-   * chuyển người dùng trở lại website.
+   * XEM TRƯỚC ẢNH HOẶC VIDEO
+   */
+
+  let currentPreviewUrl = null;
+
+  mediaInput.addEventListener(
+    "change",
+    function () {
+
+      const file =
+        mediaInput.files[0];
+
+
+      /*
+       * Xóa URL xem trước cũ nếu có.
+       */
+
+      if (currentPreviewUrl) {
+
+        URL.revokeObjectURL(
+          currentPreviewUrl
+        );
+
+        currentPreviewUrl = null;
+      }
+
+
+      /*
+       * Nếu chưa chọn tệp.
+       */
+
+      if (!file) {
+
+        mediaPreview.style.display =
+          "none";
+
+        previewImage.style.display =
+          "none";
+
+        previewVideo.style.display =
+          "none";
+
+        fileInfo.textContent =
+          "";
+
+        return;
+      }
+
+
+      /*
+       * Tạo URL tạm thời để xem trước.
+       */
+
+      currentPreviewUrl =
+        URL.createObjectURL(file);
+
+
+      mediaPreview.style.display =
+        "block";
+
+
+      fileInfo.textContent =
+        "Tệp đã chọn: " + file.name;
+
+
+      /*
+       * Nếu là ảnh.
+       */
+
+      if (
+        file.type.startsWith("image/")
+      ) {
+
+        previewVideo.pause();
+
+        previewVideo.removeAttribute(
+          "src"
+        );
+
+        previewVideo.style.display =
+          "none";
+
+
+        previewImage.src =
+          currentPreviewUrl;
+
+        previewImage.style.display =
+          "block";
+
+      }
+
+
+      /*
+       * Nếu là video.
+       */
+
+      else if (
+        file.type.startsWith("video/")
+      ) {
+
+        previewImage.removeAttribute(
+          "src"
+        );
+
+        previewImage.style.display =
+          "none";
+
+
+        previewVideo.src =
+          currentPreviewUrl;
+
+        previewVideo.style.display =
+          "block";
+
+      }
+
+
+      /*
+       * Loại tệp khác.
+       */
+
+      else {
+
+        mediaPreview.style.display =
+          "none";
+
+        alert(
+          "Vui lòng chọn ảnh hoặc video hợp lệ."
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+   * KIỂM TRA KẾT QUẢ OAUTH
    */
 
   const params =
@@ -444,10 +614,6 @@
   if (
     params.get("tiktok") === "connected"
   ) {
-
-    /*
-     * Cập nhật trạng thái kết nối.
-     */
 
     statusBox.textContent =
       "Trạng thái: Đã kết nối TikTok ✓";
@@ -470,12 +636,9 @@
 
 
     /*
-     * OAuth đã thành công.
-     *
-     * Chưa tự tạo các privacy_level ở đây.
-     * Bước tiếp theo n8n sẽ lấy Creator Info
-     * từ TikTok và website sẽ hiển thị đúng
-     * những lựa chọn TikTok trả về.
+     * Chưa tự tạo privacy_level.
+     * Các lựa chọn này phải dựa trên
+     * Creator Info TikTok trả về.
      */
 
     privacySelect.innerHTML =
@@ -486,7 +649,7 @@
 
 
     creatorNotice.textContent =
-      "Kết nối TikTok thành công. Bước tiếp theo ứng dụng sẽ lấy thông tin Creator để tải các lựa chọn quyền riêng tư được TikTok cho phép.";
+      "Kết nối TikTok thành công. Ứng dụng đang chờ thông tin Creator để tải các lựa chọn quyền riêng tư được TikTok cho phép.";
 
     creatorNotice.classList.add(
       "success"
@@ -494,8 +657,8 @@
 
 
     /*
-     * Chưa bật nút đăng cho đến khi
-     * Creator Info được xác nhận.
+     * Chỉ bật đăng sau khi Creator Info
+     * và các điều kiện cần thiết được xác nhận.
      */
 
     postButton.disabled =
@@ -508,9 +671,9 @@
     postNotice.textContent =
       "Đã kết nối TikTok. Đang chờ kiểm tra thông tin Creator trước khi cho phép gửi nội dung.";
 
+
     /*
-     * Xóa ?tiktok=connected khỏi thanh địa chỉ
-     * sau khi giao diện đã cập nhật.
+     * Xóa ?tiktok=connected khỏi URL.
      */
 
     window.history.replaceState(
