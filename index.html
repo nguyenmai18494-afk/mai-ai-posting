@@ -116,7 +116,12 @@
 
     .btn-tiktok {
       background: #111827;
-      color: white;
+      color: #ffffff;
+    }
+
+    .btn-post {
+      background: #111827;
+      color: #ffffff;
     }
 
     .btn-disabled {
@@ -140,7 +145,7 @@
       border: 1px solid #d1d5db;
       border-radius: 8px;
       font-size: 14px;
-      background: white;
+      background: #ffffff;
     }
 
     textarea {
@@ -156,6 +161,12 @@
       color: #9a3412;
       margin-top: 18px;
       line-height: 1.5;
+    }
+
+    .notice.success {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #047857;
     }
 
     footer {
@@ -195,60 +206,91 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">Mai AI Posting</div>
+
+    <div class="logo">
+      Mai AI Posting
+    </div>
 
     <nav>
       <a href="index.html">Trang chủ</a>
       <a href="terms.html">Điều khoản dịch vụ</a>
       <a href="privacy.html">Chính sách bảo mật</a>
     </nav>
+
   </div>
 </header>
+
 
 <main>
 
   <section class="hero">
+
     <h1>Mai AI Posting</h1>
 
     <p>
       Ứng dụng hỗ trợ người dùng chuẩn bị, quản lý và đăng nội dung
       giới thiệu sản phẩm lên TikTok sau khi người dùng cấp quyền.
     </p>
+
   </section>
 
+
+  <!-- PHẦN 1 -->
+
   <section class="card">
+
     <h2>1. Kết nối tài khoản TikTok</h2>
 
     <p>
-      Kết nối tài khoản TikTok để sử dụng các chức năng được
-      người dùng cho phép.
+      Kết nối tài khoản TikTok để sử dụng các chức năng
+      được người dùng cho phép.
     </p>
 
-    <div class="status" id="tiktokStatus">
+    <div
+      class="status"
+      id="tiktokStatus"
+    >
       Trạng thái: Chưa kết nối TikTok
     </div>
 
-    <button class="btn btn-tiktok" id="connectTikTok" type="button">
+    <button
+      class="btn btn-tiktok"
+      id="connectTikTok"
+      type="button"
+    >
       Kết nối với TikTok
     </button>
 
-    <div class="notice" id="connectNotice">
+    <div
+      class="notice"
+      id="connectNotice"
+    >
       Nhấn “Kết nối với TikTok” để cấp quyền cho Mai AI Posting.
       Bạn sẽ được chuyển đến TikTok để xác nhận quyền truy cập.
     </div>
+
   </section>
 
+
+  <!-- PHẦN 2 -->
+
   <section class="card">
+
     <h2>2. Chuẩn bị nội dung đăng</h2>
 
-    <label for="title">Tiêu đề / mô tả nội dung</label>
+    <label for="title">
+      Tiêu đề / mô tả nội dung
+    </label>
 
     <textarea
       id="title"
       placeholder="Nhập nội dung bạn muốn đăng lên TikTok..."
     ></textarea>
 
-    <label for="media">Nội dung phương tiện</label>
+
+    <label for="media">
+      Nội dung phương tiện
+    </label>
 
     <input
       id="media"
@@ -256,19 +298,42 @@
       accept="video/*,image/*"
     >
 
-    <label for="privacy">Quyền riêng tư</label>
 
-    <select id="privacy">
-      <option>Chọn sau khi kết nối TikTok</option>
+    <label for="privacy">
+      Quyền riêng tư
+    </label>
+
+    <select
+      id="privacy"
+      disabled
+    >
+      <option value="">
+        Kết nối TikTok để tải các lựa chọn quyền riêng tư
+      </option>
     </select>
+
+
+    <div
+      class="notice"
+      id="creatorNotice"
+    >
+      Sau khi kết nối TikTok, Mai AI Posting sẽ kiểm tra
+      thông tin Creator để hiển thị các lựa chọn đăng
+      được TikTok cho phép đối với tài khoản.
+    </div>
+
   </section>
 
+
+  <!-- PHẦN 3 -->
+
   <section class="card">
+
     <h2>3. Xác nhận đăng nội dung</h2>
 
     <p>
-      Người dùng cần kiểm tra nội dung và chủ động xác nhận trước
-      khi nội dung được gửi tới TikTok.
+      Người dùng cần kiểm tra nội dung và chủ động xác nhận
+      trước khi nội dung được gửi tới TikTok.
     </p>
 
     <button
@@ -280,27 +345,53 @@
       Đăng lên TikTok
     </button>
 
-    <div class="notice">
-      Nút đăng chỉ được kích hoạt sau khi tài khoản TikTok được
-      kết nối và ứng dụng nhận được các quyền cần thiết.
+    <div
+      class="notice"
+      id="postNotice"
+    >
+      Nút đăng sẽ được kích hoạt sau khi tài khoản TikTok
+      được kết nối, thông tin Creator được kiểm tra và
+      nội dung đăng hợp lệ.
     </div>
+
   </section>
 
 </main>
 
+
 <footer>
-  <p>© 2026 Mai AI Posting</p>
 
   <p>
-    <a href="terms.html">Điều khoản dịch vụ</a>
-    |
-    <a href="privacy.html">Chính sách bảo mật</a>
+    © 2026 Mai AI Posting
   </p>
+
+  <p>
+
+    <a href="terms.html">
+      Điều khoản dịch vụ
+    </a>
+
+    |
+
+    <a href="privacy.html">
+      Chính sách bảo mật
+    </a>
+
+  </p>
+
 </footer>
 
+
 <script>
+
+  /*
+   * URL bắt đầu OAuth.
+   * Client Secret và access token KHÔNG được đặt trong website.
+   */
+
   const TIKTOK_LOGIN_URL =
     "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
+
 
   const connectButton =
     document.getElementById("connectTikTok");
@@ -311,36 +402,125 @@
   const connectNotice =
     document.getElementById("connectNotice");
 
-  connectButton.addEventListener("click", function () {
-    window.location.href = TIKTOK_LOGIN_URL;
-  });
+  const creatorNotice =
+    document.getElementById("creatorNotice");
+
+  const privacySelect =
+    document.getElementById("privacy");
+
+  const postButton =
+    document.getElementById("postTikTok");
+
+  const postNotice =
+    document.getElementById("postNotice");
+
+
+  /*
+   * Người dùng chủ động bắt đầu OAuth.
+   */
+
+  connectButton.addEventListener(
+    "click",
+    function () {
+
+      window.location.href =
+        TIKTOK_LOGIN_URL;
+
+    }
+  );
+
+
+  /*
+   * Kiểm tra kết quả OAuth khi n8n
+   * chuyển người dùng trở lại website.
+   */
 
   const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+      window.location.search
+    );
 
-  if (params.get("tiktok") === "connected") {
+
+  if (
+    params.get("tiktok") === "connected"
+  ) {
+
+    /*
+     * Cập nhật trạng thái kết nối.
+     */
 
     statusBox.textContent =
       "Trạng thái: Đã kết nối TikTok ✓";
 
-    statusBox.classList.add("connected");
+    statusBox.classList.add(
+      "connected"
+    );
+
 
     connectButton.textContent =
       "Kết nối lại TikTok";
 
+
     connectNotice.textContent =
       "Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.";
 
+    connectNotice.classList.add(
+      "success"
+    );
+
+
     /*
-      Xóa tham số ?tiktok=connected khỏi thanh địa chỉ
-      sau khi giao diện đã cập nhật.
-    */
+     * OAuth đã thành công.
+     *
+     * Chưa tự tạo các privacy_level ở đây.
+     * Bước tiếp theo n8n sẽ lấy Creator Info
+     * từ TikTok và website sẽ hiển thị đúng
+     * những lựa chọn TikTok trả về.
+     */
+
+    privacySelect.innerHTML =
+      '<option value="">Đang chờ thông tin Creator từ TikTok</option>';
+
+    privacySelect.disabled =
+      true;
+
+
+    creatorNotice.textContent =
+      "Kết nối TikTok thành công. Bước tiếp theo ứng dụng sẽ lấy thông tin Creator để tải các lựa chọn quyền riêng tư được TikTok cho phép.";
+
+    creatorNotice.classList.add(
+      "success"
+    );
+
+
+    /*
+     * Chưa bật nút đăng cho đến khi
+     * Creator Info được xác nhận.
+     */
+
+    postButton.disabled =
+      true;
+
+    postButton.className =
+      "btn btn-disabled";
+
+
+    postNotice.textContent =
+      "Đã kết nối TikTok. Đang chờ kiểm tra thông tin Creator trước khi cho phép gửi nội dung.";
+
+    /*
+     * Xóa ?tiktok=connected khỏi thanh địa chỉ
+     * sau khi giao diện đã cập nhật.
+     */
+
     window.history.replaceState(
       {},
       document.title,
       window.location.pathname
     );
+
   }
+
 </script>
 
 </body>
