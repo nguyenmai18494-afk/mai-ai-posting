@@ -3,149 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Mai AI Posting</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
       background: #f5f7fb;
       color: #1f2937;
     }
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 18px 30px;
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px 50px;
     }
 
-    .header-inner {
-      max-width: 1050px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
+    h1 {
+      margin-bottom: 8px;
     }
 
-    .logo {
-      font-size: 25px;
-      font-weight: 700;
-      color: #111827;
-    }
-
-    nav a {
-      color: #4b5563;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
-    }
-
-    nav a:hover { color: #111827; }
-
-    main {
-      max-width: 1050px;
-      margin: 45px auto;
-      padding: 0 25px;
-    }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 12px;
-      color: #111827;
-    }
-
-    .hero p {
+    .subtitle {
       color: #6b7280;
-      font-size: 17px;
-      line-height: 1.6;
-      max-width: 700px;
-      margin: auto;
+      margin-bottom: 30px;
     }
 
     .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
+      background: white;
       border-radius: 16px;
       padding: 28px;
       margin-bottom: 22px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
     }
 
-    .card h2 {
+    h2 {
       margin-top: 0;
-      font-size: 21px;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input[type="file"] {
+      margin-top: 5px;
+    }
+
+    button {
+      border: none;
+      border-radius: 9px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-connect {
+      background: #111827;
+      color: white;
+    }
+
+    .btn-post {
+      background: #111827;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .btn-post:disabled {
+      background: #c7cdd5;
+      cursor: not-allowed;
     }
 
     .status {
+      margin-top: 16px;
+      padding: 13px 15px;
+      border-radius: 9px;
       background: #f3f4f6;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 18px 0;
-      color: #4b5563;
     }
 
     .status.connected {
       background: #ecfdf5;
       color: #047857;
       border: 1px solid #a7f3d0;
-      font-weight: 600;
     }
 
-    .btn {
-      display: inline-block;
-      border: 0;
-      border-radius: 8px;
-      padding: 13px 20px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
+    .notice {
+      margin-top: 15px;
+      padding: 13px 15px;
+      border-radius: 9px;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
     }
 
-    .btn-tiktok,
-    .btn-post {
-      background: #111827;
-      color: #ffffff;
+    .success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
     }
 
-    .btn-disabled {
-      background: #d1d5db;
-      color: #6b7280;
-      cursor: not-allowed;
-    }
-
-    label {
-      display: block;
-      margin-top: 17px;
-      margin-bottom: 7px;
-      font-weight: 600;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 14px;
-      background: #ffffff;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    /* Khu vực xem trước ảnh/video */
     #mediaPreview {
       display: none;
       margin-top: 15px;
@@ -172,140 +152,106 @@
       font-size: 14px;
     }
 
-    .notice {
+    .creator-box {
+      display: none;
+      margin-top: 15px;
       padding: 14px;
-      border-radius: 9px;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-      margin-top: 18px;
-      line-height: 1.5;
-    }
-
-    .notice.success {
+      border-radius: 10px;
       background: #ecfdf5;
-      border-color: #a7f3d0;
+      border: 1px solid #a7f3d0;
       color: #047857;
     }
 
-    footer {
-      text-align: center;
-      padding: 35px 20px;
-      color: #6b7280;
-      font-size: 13px;
-    }
-
-    footer a {
-      color: #374151;
-      margin: 0 8px;
-    }
-
-    @media (max-width: 700px) {
-      .header-inner { display: block; }
-
-      nav { margin-top: 15px; }
-
-      nav a {
-        margin-left: 0;
-        margin-right: 15px;
-      }
-
-      .hero h1 { font-size: 30px; }
-
-      #previewImage,
-      #previewVideo {
-        max-width: 100%;
-      }
+    .warning {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #92400e;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">Mai AI Posting</div>
+<div class="container">
 
-    <nav>
-      <a href="index.html">Trang chủ</a>
-      <a href="terms.html">Điều khoản dịch vụ</a>
-      <a href="privacy.html">Chính sách bảo mật</a>
-    </nav>
+  <h1>Mai AI Posting</h1>
+
+  <div class="subtitle">
+    Kết nối TikTok, chuẩn bị nội dung và xác nhận trước khi đăng.
   </div>
-</header>
 
 
-<main>
-
-  <section class="hero">
-    <h1>Mai AI Posting</h1>
-
-    <p>
-      Ứng dụng hỗ trợ người dùng chuẩn bị, quản lý và đăng nội dung
-      giới thiệu sản phẩm lên TikTok sau khi người dùng cấp quyền.
-    </p>
-  </section>
-
-
-  <!-- PHẦN 1: KẾT NỐI TIKTOK -->
-
-  <section class="card">
+  <!-- PHẦN 1 -->
+  <div class="card">
 
     <h2>1. Kết nối tài khoản TikTok</h2>
 
     <p>
-      Kết nối tài khoản TikTok để sử dụng các chức năng
-      được người dùng cho phép.
+      Kết nối tài khoản TikTok để ứng dụng có thể sử dụng
+      Content Posting API.
     </p>
 
-    <div class="status" id="tiktokStatus">
-      Trạng thái: Chưa kết nối TikTok
-    </div>
-
     <button
-      class="btn btn-tiktok"
+      class="btn-connect"
       id="connectTikTok"
       type="button"
     >
       Kết nối với TikTok
     </button>
 
-    <div class="notice" id="connectNotice">
-      Nhấn “Kết nối với TikTok” để cấp quyền cho Mai AI Posting.
-      Bạn sẽ được chuyển đến TikTok để xác nhận quyền truy cập.
+    <div
+      class="status"
+      id="tiktokStatus"
+    >
+      Trạng thái: Chưa kết nối TikTok
     </div>
 
-  </section>
+    <div
+      class="creator-box"
+      id="creatorBox"
+    >
+      Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.
+    </div>
+
+  </div>
 
 
-  <!-- PHẦN 2: CHUẨN BỊ NỘI DUNG -->
+  <!-- PHẦN 2 -->
+  <div class="card">
 
-  <section class="card">
-
-    <h2>2. Chuẩn bị nội dung đăng</h2>
+    <h2>2. Chuẩn bị nội dung</h2>
 
     <label for="title">
-      Tiêu đề / mô tả nội dung
+      Tiêu đề
+    </label>
+
+    <input
+      id="title"
+      type="text"
+      placeholder="Nhập tiêu đề bài đăng"
+    >
+
+
+    <label for="description">
+      Nội dung
     </label>
 
     <textarea
-      id="title"
-      placeholder="Nhập nội dung bạn muốn đăng lên TikTok..."
+      id="description"
+      placeholder="Nhập nội dung bài đăng"
     ></textarea>
 
 
     <label for="media">
-      Nội dung phương tiện
+      Chọn ảnh hoặc video
     </label>
 
     <input
       id="media"
       type="file"
-      accept="video/*,image/*"
+      accept="image/*,video/*"
     >
 
-
-    <!-- XEM TRƯỚC ẢNH / VIDEO -->
 
     <div id="mediaPreview">
 
@@ -331,31 +277,27 @@
       Quyền riêng tư
     </label>
 
-    <select
-      id="privacy"
-      disabled
-    >
+    <select id="privacy">
+
       <option value="">
-        Kết nối TikTok để tải các lựa chọn quyền riêng tư
+        Chọn quyền riêng tư
       </option>
+
+      <option value="SELF_ONLY">
+        Chỉ mình tôi
+      </option>
+
     </select>
 
-
-    <div
-      class="notice"
-      id="creatorNotice"
-    >
-      Sau khi kết nối TikTok, Mai AI Posting sẽ kiểm tra
-      thông tin Creator để hiển thị các lựa chọn đăng
-      được TikTok cho phép đối với tài khoản.
+    <div class="warning">
+      Bản demo hiện sử dụng chế độ “Chỉ mình tôi” cho lần đăng thử nghiệm.
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- PHẦN 3: XÁC NHẬN -->
-
-  <section class="card">
+  <!-- PHẦN 3 -->
+  <div class="card">
 
     <h2>3. Xác nhận đăng nội dung</h2>
 
@@ -365,8 +307,8 @@
     </p>
 
     <button
-      class="btn btn-disabled"
-      id="postTikTok"
+      class="btn-post"
+      id="postButton"
       type="button"
       disabled
     >
@@ -377,312 +319,356 @@
       class="notice"
       id="postNotice"
     >
-      Nút đăng sẽ được kích hoạt sau khi tài khoản TikTok
-      được kết nối, thông tin Creator được kiểm tra và
-      nội dung đăng hợp lệ.
+      Hãy kết nối TikTok, chọn nội dung, tệp và quyền riêng tư trước khi đăng.
     </div>
 
-  </section>
+  </div>
 
-</main>
-
-
-<footer>
-
-  <p>© 2026 Mai AI Posting</p>
-
-  <p>
-    <a href="terms.html">Điều khoản dịch vụ</a>
-    |
-    <a href="privacy.html">Chính sách bảo mật</a>
-  </p>
-
-</footer>
+</div>
 
 
 <script>
 
-  /*
-   * URL bắt đầu OAuth.
-   * Không đặt Client Secret hoặc access token
-   * trong website GitHub Pages.
-   */
+const TIKTOK_LOGIN_URL =
+  "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
 
-  const TIKTOK_LOGIN_URL =
-    "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
 
+const connectTikTok =
+  document.getElementById("connectTikTok");
 
-  const connectButton =
-    document.getElementById("connectTikTok");
+const tiktokStatus =
+  document.getElementById("tiktokStatus");
 
-  const statusBox =
-    document.getElementById("tiktokStatus");
+const creatorBox =
+  document.getElementById("creatorBox");
 
-  const connectNotice =
-    document.getElementById("connectNotice");
+const titleInput =
+  document.getElementById("title");
 
-  const creatorNotice =
-    document.getElementById("creatorNotice");
+const descriptionInput =
+  document.getElementById("description");
 
-  const privacySelect =
-    document.getElementById("privacy");
+const mediaInput =
+  document.getElementById("media");
 
-  const postButton =
-    document.getElementById("postTikTok");
+const privacySelect =
+  document.getElementById("privacy");
 
-  const postNotice =
-    document.getElementById("postNotice");
+const postButton =
+  document.getElementById("postButton");
 
-  const mediaInput =
-    document.getElementById("media");
+const postNotice =
+  document.getElementById("postNotice");
 
-  const mediaPreview =
-    document.getElementById("mediaPreview");
+const mediaPreview =
+  document.getElementById("mediaPreview");
 
-  const previewImage =
-    document.getElementById("previewImage");
+const previewImage =
+  document.getElementById("previewImage");
 
-  const previewVideo =
-    document.getElementById("previewVideo");
+const previewVideo =
+  document.getElementById("previewVideo");
 
-  const fileInfo =
-    document.getElementById("fileInfo");
+const fileInfo =
+  document.getElementById("fileInfo");
 
 
-  /*
-   * KẾT NỐI TIKTOK
-   */
+let tiktokConnected = false;
+let currentPreviewUrl = null;
 
-  connectButton.addEventListener(
-    "click",
-    function () {
 
-      window.location.href =
-        TIKTOK_LOGIN_URL;
+/* =========================
+   KẾT NỐI TIKTOK
+========================= */
 
-    }
-  );
+connectTikTok.addEventListener(
+  "click",
+  function () {
 
-
-  /*
-   * XEM TRƯỚC ẢNH HOẶC VIDEO
-   */
-
-  let currentPreviewUrl = null;
-
-  mediaInput.addEventListener(
-    "change",
-    function () {
-
-      const file =
-        mediaInput.files[0];
-
-
-      /*
-       * Xóa URL xem trước cũ nếu có.
-       */
-
-      if (currentPreviewUrl) {
-
-        URL.revokeObjectURL(
-          currentPreviewUrl
-        );
-
-        currentPreviewUrl = null;
-      }
-
-
-      /*
-       * Nếu chưa chọn tệp.
-       */
-
-      if (!file) {
-
-        mediaPreview.style.display =
-          "none";
-
-        previewImage.style.display =
-          "none";
-
-        previewVideo.style.display =
-          "none";
-
-        fileInfo.textContent =
-          "";
-
-        return;
-      }
-
-
-      /*
-       * Tạo URL tạm thời để xem trước.
-       */
-
-      currentPreviewUrl =
-        URL.createObjectURL(file);
-
-
-      mediaPreview.style.display =
-        "block";
-
-
-      fileInfo.textContent =
-        "Tệp đã chọn: " + file.name;
-
-
-      /*
-       * Nếu là ảnh.
-       */
-
-      if (
-        file.type.startsWith("image/")
-      ) {
-
-        previewVideo.pause();
-
-        previewVideo.removeAttribute(
-          "src"
-        );
-
-        previewVideo.style.display =
-          "none";
-
-
-        previewImage.src =
-          currentPreviewUrl;
-
-        previewImage.style.display =
-          "block";
-
-      }
-
-
-      /*
-       * Nếu là video.
-       */
-
-      else if (
-        file.type.startsWith("video/")
-      ) {
-
-        previewImage.removeAttribute(
-          "src"
-        );
-
-        previewImage.style.display =
-          "none";
-
-
-        previewVideo.src =
-          currentPreviewUrl;
-
-        previewVideo.style.display =
-          "block";
-
-      }
-
-
-      /*
-       * Loại tệp khác.
-       */
-
-      else {
-
-        mediaPreview.style.display =
-          "none";
-
-        alert(
-          "Vui lòng chọn ảnh hoặc video hợp lệ."
-        );
-
-      }
-
-    }
-  );
-
-
-  /*
-   * KIỂM TRA KẾT QUẢ OAUTH
-   */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  if (
-    params.get("tiktok") === "connected"
-  ) {
-
-    statusBox.textContent =
-      "Trạng thái: Đã kết nối TikTok ✓";
-
-    statusBox.classList.add(
-      "connected"
-    );
-
-
-    connectButton.textContent =
-      "Kết nối lại TikTok";
-
-
-    connectNotice.textContent =
-      "Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.";
-
-    connectNotice.classList.add(
-      "success"
-    );
-
-
-    /*
-     * Chưa tự tạo privacy_level.
-     * Các lựa chọn này phải dựa trên
-     * Creator Info TikTok trả về.
-     */
-
-    privacySelect.innerHTML =
-      '<option value="">Đang chờ thông tin Creator từ TikTok</option>';
-
-    privacySelect.disabled =
-      true;
-
-
-    creatorNotice.textContent =
-      "Kết nối TikTok thành công. Ứng dụng đang chờ thông tin Creator để tải các lựa chọn quyền riêng tư được TikTok cho phép.";
-
-    creatorNotice.classList.add(
-      "success"
-    );
-
-
-    /*
-     * Chỉ bật đăng sau khi Creator Info
-     * và các điều kiện cần thiết được xác nhận.
-     */
-
-    postButton.disabled =
-      true;
-
-    postButton.className =
-      "btn btn-disabled";
-
-
-    postNotice.textContent =
-      "Đã kết nối TikTok. Đang chờ kiểm tra thông tin Creator trước khi cho phép gửi nội dung.";
-
-
-    /*
-     * Xóa ?tiktok=connected khỏi URL.
-     */
-
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.pathname
-    );
+    window.location.href =
+      TIKTOK_LOGIN_URL;
 
   }
+);
+
+
+/* =========================
+   KIỂM TRA CALLBACK
+========================= */
+
+const params =
+  new URLSearchParams(window.location.search);
+
+
+if (params.get("tiktok") === "connected") {
+
+  tiktokConnected = true;
+
+  tiktokStatus.textContent =
+    "Trạng thái: Đã kết nối TikTok ✓";
+
+  tiktokStatus.classList.add("connected");
+
+  creatorBox.style.display = "block";
+
+  connectTikTok.textContent =
+    "Kết nối lại TikTok";
+
+
+  /* Demo hiện tại sử dụng SELF_ONLY */
+
+  privacySelect.value =
+    "SELF_ONLY";
+
+
+  history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
+
+}
+
+
+/* =========================
+   XEM TRƯỚC ẢNH / VIDEO
+========================= */
+
+mediaInput.addEventListener(
+  "change",
+  function () {
+
+    const file =
+      mediaInput.files[0];
+
+
+    if (currentPreviewUrl) {
+
+      URL.revokeObjectURL(
+        currentPreviewUrl
+      );
+
+      currentPreviewUrl = null;
+
+    }
+
+
+    if (!file) {
+
+      mediaPreview.style.display =
+        "none";
+
+      previewImage.style.display =
+        "none";
+
+      previewVideo.style.display =
+        "none";
+
+      fileInfo.textContent =
+        "";
+
+      updatePostButton();
+
+      return;
+
+    }
+
+
+    currentPreviewUrl =
+      URL.createObjectURL(file);
+
+
+    mediaPreview.style.display =
+      "block";
+
+
+    fileInfo.textContent =
+      "Tệp đã chọn: " + file.name;
+
+
+    if (file.type.startsWith("image/")) {
+
+      previewVideo.pause();
+
+      previewVideo.removeAttribute(
+        "src"
+      );
+
+      previewVideo.style.display =
+        "none";
+
+
+      previewImage.src =
+        currentPreviewUrl;
+
+      previewImage.style.display =
+        "block";
+
+    }
+
+    else if (file.type.startsWith("video/")) {
+
+      previewImage.removeAttribute(
+        "src"
+      );
+
+      previewImage.style.display =
+        "none";
+
+
+      previewVideo.src =
+        currentPreviewUrl;
+
+      previewVideo.style.display =
+        "block";
+
+    }
+
+    else {
+
+      mediaPreview.style.display =
+        "none";
+
+      alert(
+        "Vui lòng chọn ảnh hoặc video hợp lệ."
+      );
+
+    }
+
+
+    updatePostButton();
+
+  }
+);
+
+
+/* =========================
+   KIỂM TRA ĐIỀU KIỆN ĐĂNG
+========================= */
+
+function updatePostButton() {
+
+  const hasTitle =
+    titleInput.value.trim() !== "";
+
+  const hasDescription =
+    descriptionInput.value.trim() !== "";
+
+  const hasMedia =
+    mediaInput.files.length > 0;
+
+  const hasPrivacy =
+    privacySelect.value !== "";
+
+
+  const ready =
+    tiktokConnected &&
+    hasTitle &&
+    hasDescription &&
+    hasMedia &&
+    hasPrivacy;
+
+
+  postButton.disabled =
+    !ready;
+
+
+  if (!tiktokConnected) {
+
+    postNotice.textContent =
+      "Hãy kết nối tài khoản TikTok trước.";
+
+    return;
+
+  }
+
+
+  if (!hasTitle || !hasDescription) {
+
+    postNotice.textContent =
+      "Hãy nhập tiêu đề và nội dung bài đăng.";
+
+    return;
+
+  }
+
+
+  if (!hasMedia) {
+
+    postNotice.textContent =
+      "Hãy chọn ảnh hoặc video.";
+
+    return;
+
+  }
+
+
+  if (!hasPrivacy) {
+
+    postNotice.textContent =
+      "Hãy chọn quyền riêng tư.";
+
+    return;
+
+  }
+
+
+  postNotice.textContent =
+    "Nội dung đã sẵn sàng. Hãy kiểm tra trước khi xác nhận đăng.";
+
+  postNotice.classList.add(
+    "success"
+  );
+
+}
+
+
+/* =========================
+   THEO DÕI THAY ĐỔI
+========================= */
+
+titleInput.addEventListener(
+  "input",
+  updatePostButton
+);
+
+descriptionInput.addEventListener(
+  "input",
+  updatePostButton
+);
+
+privacySelect.addEventListener(
+  "change",
+  updatePostButton
+);
+
+
+/* =========================
+   NÚT ĐĂNG
+========================= */
+
+postButton.addEventListener(
+  "click",
+  function () {
+
+    /*
+      Chưa gửi bài ở bước này.
+
+      Bước tiếp theo sẽ nối nút này
+      với Webhook2 của n8n.
+
+      Không đặt access_token hoặc
+      Client Secret trong file HTML.
+    */
+
+    postNotice.textContent =
+      "Nội dung đã được xác nhận. Đang chờ kết nối với dịch vụ đăng TikTok.";
+
+  }
+);
+
+
+updatePostButton();
 
 </script>
 
