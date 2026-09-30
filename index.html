@@ -96,6 +96,13 @@
       color: #4b5563;
     }
 
+    .status.connected {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      font-weight: 600;
+    }
+
     .btn {
       display: inline-block;
       border: 0;
@@ -217,7 +224,7 @@
       người dùng cho phép.
     </p>
 
-    <div class="status">
+    <div class="status" id="tiktokStatus">
       Trạng thái: Chưa kết nối TikTok
     </div>
 
@@ -225,9 +232,9 @@
       Kết nối với TikTok
     </button>
 
-    <div class="notice">
-      Chức năng kết nối TikTok đang được cấu hình.
-      Chỉ tài khoản đã cấp quyền mới có thể sử dụng chức năng đăng nội dung.
+    <div class="notice" id="connectNotice">
+      Nhấn “Kết nối với TikTok” để cấp quyền cho Mai AI Posting.
+      Bạn sẽ được chuyển đến TikTok để xác nhận quyền truy cập.
     </div>
   </section>
 
@@ -235,15 +242,22 @@
     <h2>2. Chuẩn bị nội dung đăng</h2>
 
     <label for="title">Tiêu đề / mô tả nội dung</label>
+
     <textarea
       id="title"
       placeholder="Nhập nội dung bạn muốn đăng lên TikTok..."
     ></textarea>
 
     <label for="media">Nội dung phương tiện</label>
-    <input id="media" type="file" accept="video/*,image/*">
+
+    <input
+      id="media"
+      type="file"
+      accept="video/*,image/*"
+    >
 
     <label for="privacy">Quyền riêng tư</label>
+
     <select id="privacy">
       <option>Chọn sau khi kết nối TikTok</option>
     </select>
@@ -257,7 +271,12 @@
       khi nội dung được gửi tới TikTok.
     </p>
 
-    <button class="btn btn-disabled" type="button" disabled>
+    <button
+      class="btn btn-disabled"
+      id="postTikTok"
+      type="button"
+      disabled
+    >
       Đăng lên TikTok
     </button>
 
@@ -280,12 +299,48 @@
 </footer>
 
 <script>
-  document.getElementById("connectTikTok").addEventListener("click", function () {
-    alert(
-      "Chức năng kết nối TikTok đang được cấu hình. " +
-      "Sau khi OAuth được kết nối với luồng thật, nút này sẽ chuyển người dùng đến TikTok để cấp quyền."
-    );
+  const TIKTOK_LOGIN_URL =
+    "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
+
+  const connectButton =
+    document.getElementById("connectTikTok");
+
+  const statusBox =
+    document.getElementById("tiktokStatus");
+
+  const connectNotice =
+    document.getElementById("connectNotice");
+
+  connectButton.addEventListener("click", function () {
+    window.location.href = TIKTOK_LOGIN_URL;
   });
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  if (params.get("tiktok") === "connected") {
+
+    statusBox.textContent =
+      "Trạng thái: Đã kết nối TikTok ✓";
+
+    statusBox.classList.add("connected");
+
+    connectButton.textContent =
+      "Kết nối lại TikTok";
+
+    connectNotice.textContent =
+      "Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.";
+
+    /*
+      Xóa tham số ?tiktok=connected khỏi thanh địa chỉ
+      sau khi giao diện đã cập nhật.
+    */
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+  }
 </script>
 
 </body>
