@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mai AI Posting</title>
+
+  <!-- Biểu tượng chính thức của Mai AI Posting -->
+  <link rel="icon" type="image/png" href="mai-ai-posting-icon.png">
+  <link rel="shortcut icon" type="image/png" href="mai-ai-posting-icon.png">
+  <link rel="apple-touch-icon" href="mai-ai-posting-icon.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px 50px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input[type="file"] {
+      margin-top: 5px;
+    }
+
+    button {
+      border: none;
+      border-radius: 9px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-connect {
+      background: #111827;
+      color: white;
+    }
+
+    .btn-post {
+      background: #111827;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .btn-post:disabled {
+      background: #c7cdd5;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 13px 15px;
+      border-radius: 9px;
+      background: #f3f4f6;
+    }
+
+    .status.connected {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .notice {
+      margin-top: 15px;
+      padding: 13px 15px;
+      border-radius: 9px;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+    }
+
+    .success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    #mediaPreview {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    #previewImage,
+    #previewVideo {
+      display: none;
+      max-width: 360px;
+      max-height: 360px;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .creator-box {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+    }
+
+    .warning {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #92400e;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Mai AI Posting</h1>
+
+  <div class="subtitle">
+    Kết nối TikTok, chuẩn bị nội dung và xác nhận trước khi đăng.
+  </div>
+
+
+  <!-- PHẦN 1 -->
+  <div class="card">
+
+    <h2>1. Kết nối tài khoản TikTok</h2>
+
+    <p>
+      Kết nối tài khoản TikTok để ứng dụng có thể sử dụng
+      Content Posting API.
+    </p>
+
+    <button
+      class="btn-connect"
+      id="connectTikTok"
+      type="button"
+    >
+      Kết nối với TikTok
+    </button>
+
+    <div
+      class="status"
+      id="tiktokStatus"
+    >
+      Trạng thái: Chưa kết nối TikTok
+    </div>
+
+    <div
+      class="creator-box"
+      id="creatorBox"
+    >
+      Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.
+    </div>
+
+  </div>
+
+
+  <!-- PHẦN 2 -->
+  <div class="card">
+
+    <h2>2. Chuẩn bị nội dung</h2>
+
+    <label for="title">
+      Tiêu đề
+    </label>
+
+    <input
+      id="title"
+      type="text"
+      placeholder="Nhập tiêu đề bài đăng"
+    >
+
+
+    <label for="description">
+      Nội dung
+    </label>
+
+    <textarea
+      id="description"
+      placeholder="Nhập nội dung bài đăng"
+    ></textarea>
+
+
+    <label for="media">
+      Chọn ảnh hoặc video
+    </label>
+
+    <input
+      id="media"
+      type="file"
+      accept="image/*,video/*"
+    >
+
+
+    <div id="mediaPreview">
+
+      <img
+        id="previewImage"
+        alt="Ảnh xem trước"
+      >
+
+      <video
+        id="previewVideo"
+        controls
+      ></video>
+
+      <div
+        class="file-info"
+        id="fileInfo"
+      ></div>
+
+    </div>
+
+
+    <label for="privacy">
+      Quyền riêng tư
+    </label>
+
+    <select id="privacy">
+
+      <option value="">
+        Chọn quyền riêng tư
+      </option>
+
+
+
+    </select>
+
+    <div class="warning" id="privacyNotice">
+      Chưa tải được quyền riêng tư từ TikTok. Chế độ đăng sẽ chỉ được mở khi máy chủ n8n xác nhận các lựa chọn hợp lệ.
+    </div>
+
+  </div>
+
+
+  <!-- PHẦN 3 -->
+  <div class="card">
+
+    <h2>3. Xác nhận đăng nội dung</h2>
+
+    <p>
+      Người dùng cần kiểm tra nội dung và chủ động xác nhận
+      trước khi nội dung được gửi tới TikTok.
+    </p>
+
+    <button
+      class="btn-post"
+      id="postButton"
+      type="button"
+      disabled
+    >
+      Đăng lên TikTok
+    </button>
+
+    <label style="font-weight:normal;display:flex;align-items:flex-start;gap:10px">
+      <input id="confirmPost" type="checkbox" style="margin-top:3px">
+      Tôi đã kiểm tra nội dung và đồng ý gửi bài với quyền riêng tư đã chọn.
+    </label>
+    <div
+      class="notice"
+      id="postNotice"
+    >
+      Hãy kết nối TikTok, chọn nội dung, tệp và quyền riêng tư trước khi đăng.
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+"use strict";
+// Cấu hình endpoint backend SAU KHI xây dựng và bảo vệ trong n8n.
+// Không bao giờ đặt access_token, refresh_token hoặc client_secret vào HTML.
+const CONFIG = Object.freeze({
+  loginUrl: "https://phimai1912.app.n8n.cloud/webhook/tiktok-login",
+  creatorStatusUrl: "", // Ví dụ: endpoint GET riêng, có xác thực, trả {connected,creator_username,privacy_level_options,public_posting_approved}
+  publishUrl: ""        // Endpoint POST riêng, có xác thực, hỗ trợ upload ảnh và trả trạng thái thật
+});
+const $ = id => document.getElementById(id);
+const connectTikTok = $("connectTikTok"), tiktokStatus = $("tiktokStatus"), creatorBox = $("creatorBox");
+const titleInput = $("title"), descriptionInput = $("description"), mediaInput = $("media");
+const privacySelect = $("privacy"), postButton = $("postButton"), postNotice = $("postNotice");
+const mediaPreview = $("mediaPreview"), previewImage = $("previewImage"), previewVideo = $("previewVideo"), fileInfo = $("fileInfo");
+const privacyNotice = $("privacyNotice"), confirmPost = $("confirmPost");
+let currentPreviewUrl = null, verifiedConnected = false, allowedPrivacy = [], publicApproved = false, sending = false;
+const labels = {PUBLIC_TO_EVERYONE:"Công khai",MUTUAL_FOLLOW_FRIENDS:"Bạn bè",FOLLOWER_OF_CREATOR:"Người theo dõi",SELF_ONLY:"Chỉ mình tôi"};
+function status(message, ok=false) {
+  tiktokStatus.textContent = message;
+  tiktokStatus.classList.toggle("connected", ok);
+}
+function resetPrivacy() {
+  privacySelect.replaceChildren(new Option("Chọn quyền riêng tư", ""));
+  privacySelect.disabled = true;
+  allowedPrivacy = [];
+}
+function updatePostButton() {
+  const file = mediaInput.files[0];
+  const isPhoto = !!file && file.type.startsWith("image/");
+  const isVideo = !!file && file.type.startsWith("video/");
+  const validPrivacy = allowedPrivacy.includes(privacySelect.value) && (privacySelect.value !== "PUBLIC_TO_EVERYONE" || publicApproved);
+  const ready = verifiedConnected && !!CONFIG.publishUrl && !sending && titleInput.value.trim() && descriptionInput.value.trim() && (isPhoto || isVideo) && validPrivacy && confirmPost.checked;
+  postButton.disabled = !ready;
+  if (!CONFIG.creatorStatusUrl || !CONFIG.publishUrl) {
+    postNotice.textContent = "Chưa cấu hình API máy chủ n8n an toàn để kiểm tra tài khoản, tải quyền riêng tư và đăng bài. Chưa thể gửi bài thật.";
+  } else if (!verifiedConnected) {
+    postNotice.textContent = "Cần xác minh kết nối TikTok qua máy chủ.";
+  } else if (!validPrivacy) {
+    postNotice.textContent = "Hãy chọn quyền riêng tư được TikTok cho phép.";
+  } else if (!file || !titleInput.value.trim() || !descriptionInput.value.trim()) {
+    postNotice.textContent = "Hãy nhập nội dung và chọn tệp ảnh/video.";
+  } else if (!confirmPost.checked) {
+    postNotice.textContent = "Hãy xác nhận nội dung trước khi đăng.";
+  } else {
+    postNotice.textContent = "Đã sẵn sàng gửi yêu cầu. Chỉ bấm đăng khi bạn thực sự muốn đăng bài.";
+  }
+}
+async function loadCreatorStatus() {
+  resetPrivacy(); verifiedConnected = false; publicApproved = false;
+  if (!CONFIG.creatorStatusUrl) {
+    status("Trạng thái: Chưa xác minh kết nối với máy chủ n8n");
+    privacyNotice.textContent = "Chưa cấu hình endpoint Creator Info. Không thể tự mở quyền Công khai chỉ bằng HTML.";
+    updatePostButton(); return;
+  }
+  try {
+    const response = await fetch(CONFIG.creatorStatusUrl, {method:"GET",credentials:"include",headers:{"Accept":"application/json"},cache:"no-store"});
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    if (data.connected !== true || !Array.isArray(data.privacy_level_options)) throw new Error("Thiếu dữ liệu xác thực từ máy chủ");
+    verifiedConnected = true;
+    publicApproved = data.public_posting_approved === true;
+    const opts = data.privacy_level_options.filter(p => Object.hasOwn(labels,p) && (p !== "PUBLIC_TO_EVERYONE" || publicApproved));
+    allowedPrivacy = [...new Set(opts)];
+    allowedPrivacy.forEach(p => privacySelect.add(new Option(labels[p],p)));
+    privacySelect.disabled = allowedPrivacy.length === 0;
+    status("Trạng thái: Đã xác minh TikTok" + (data.creator_username ? " (@" + String(data.creator_username).replace(/^@/,"") + ")" : "") + " ✓",true);
+    creatorBox.style.display = "block";
+    connectTikTok.textContent = "Kết nối lại TikTok";
+    privacyNotice.textContent = publicApproved ? "Chọn quyền riêng tư do TikTok cung cấp; bạn phải xác nhận trước khi đăng." : "Chưa xác nhận phê duyệt Direct Post công khai; không mở lựa chọn Công khai.";
+  } catch (error) {
+    status("Trạng thái: Không thể xác minh kết nối TikTok");
+    privacyNotice.textContent = "Lỗi kiểm tra tài khoản: " + error.message;
+  }
+  updatePostButton();
+}
+connectTikTok.addEventListener("click",()=>{window.location.href=CONFIG.loginUrl;});
+const params = new URLSearchParams(window.location.search);
+if (params.get("tiktok") === "connected") {
+  status("TikTok đã chuyển hướng về website. Đang chờ máy chủ xác minh kết nối…");
+  history.replaceState({},document.title,window.location.pathname);
+}
+mediaInput.addEventListener("change",()=>{
+  if(currentPreviewUrl) URL.revokeObjectURL(currentPreviewUrl);
+  currentPreviewUrl = null;
+  previewImage.style.display = previewVideo.style.display = "none";
+  previewVideo.pause(); previewVideo.removeAttribute("src"); previewImage.removeAttribute("src");
+  const file = mediaInput.files[0];
+  mediaPreview.style.display = file ? "block" : "none";
+  if(file) {
+    currentPreviewUrl = URL.createObjectURL(file);
+    fileInfo.textContent = "Tệp đã chọn: " + file.name;
+    if(file.type.startsWith("image/")) {previewImage.src=currentPreviewUrl;previewImage.style.display="block";}
+    else if(file.type.startsWith("video/")) {previewVideo.src=currentPreviewUrl;previewVideo.style.display="block";}
+    else {fileInfo.textContent="Định dạng không hợp lệ";}
+  }
+  confirmPost.checked = false;
+  updatePostButton();
+});
+[titleInput,descriptionInput,privacySelect,confirmPost].forEach(el=>el.addEventListener(el===confirmPost?"change":"input",updatePostButton));
+postButton.addEventListener("click",async()=>{
+  updatePostButton();
+  if(postButton.disabled || !confirm("Bạn xác nhận gửi bài lên TikTok với chế độ: " + (labels[privacySelect.value]||"") + "?")) return;
+  const file = mediaInput.files[0];
+  sending=true;updatePostButton();postNotice.textContent="Đang gửi yêu cầu đến máy chủ…";
+  try {
+    const form = new FormData();
+    form.append("title",titleInput.value.trim());
+    form.append("description",descriptionInput.value.trim());
+    form.append("privacy_level",privacySelect.value);
+    form.append("media",file,file.name);
+    // Backend phải xác thực phiên người dùng, kiểm tra Creator Info, quyền đăng,
+    // upload ảnh sang URL đã xác minh và theo dõi trạng thái publish_id.
+    const response=await fetch(CONFIG.publishUrl,{method:"POST",credentials:"include",body:form});
+    const result=await response.json();
+    if(!response.ok || result.error) throw new Error(result.message || result.error || "HTTP " + response.status);
+    postNotice.textContent=result.status==="published" ? "TikTok xác nhận bài đã đăng." : "Đã gửi yêu cầu. Trạng thái: " + (result.status || "đang xử lý") + (result.publish_id ? " · Mã: " + result.publish_id : "") + ". Chưa xác nhận bài đã công khai.";
+  }catch(error){postNotice.textContent="Không thể gửi bài: " + error.message;}
+  finally{sending=false;updatePostButton();}
+});
+resetPrivacy();loadCreatorStatus();
+</script>
+
+<!-- FOOTER CHÍNH THỨC MAI AI POSTING -->
+<footer style="
+  max-width: 1000px;
+  margin: 20px auto 40px;
+  padding: 24px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.7;
+  border-top: 1px solid #e5e7eb;
+">
+  <p>
+    <strong>Mai AI Posting</strong> giúp người dùng kết nối TikTok,
+    chuẩn bị, quản lý và chủ động xác nhận nội dung trước khi đăng.
+  </p>
+
+  <p>
+    <a href="terms.html" style="color:#2563eb; text-decoration:none;">
+      Điều khoản dịch vụ
+    </a>
+    &nbsp; | &nbsp;
+    <a href="privacy.html" style="color:#2563eb; text-decoration:none;">
+      Chính sách bảo mật
+    </a>
+  </p>
+
+  <p>
+    © 2026 Mai AI Posting. All rights reserved.
+  </p>
+</footer>
+
+</body>
+</html>
