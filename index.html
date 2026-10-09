@@ -288,14 +288,12 @@
         Chọn quyền riêng tư
       </option>
 
-      <option value="SELF_ONLY">
-        Chỉ mình tôi
-      </option>
+      <!-- Danh sách sẽ được lấy từ Creator Info qua n8n. -->
 
     </select>
 
-    <div class="warning">
-      Bản demo hiện sử dụng chế độ “Chỉ mình tôi” cho lần đăng thử nghiệm.
+    <div class="warning" id="privacyNotice">
+      Chưa cấu hình địa chỉ API Creator Info của n8n. Không thể chọn quyền riêng tư cho đến khi xác minh dữ liệu trực tiếp.
     </div>
 
   </div>
@@ -336,6 +334,11 @@
 
 const TIKTOK_LOGIN_URL =
   "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
+
+// Chỉ điền URL webhook GET an toàn sau khi tạo trong n8n.
+// Endpoint phải kiểm tra phiên đăng nhập trên máy chủ, gọi Creator Info
+// bằng token lưu trên máy chủ, và trả về JSON, KHÔNG trả access_token.
+const CREATOR_INFO_URL = "";
 
 
 const connectTikTok =
@@ -380,6 +383,52 @@ const fileInfo =
 
 let tiktokConnected = false;
 let currentPreviewUrl = null;
+const privacyNotice = document.getElementById("privacyNotice");
+const privacyNames = {
+  PUBLIC_TO_EVERYONE: "Công khai",
+  MUTUAL_FOLLOW_FRIENDS: "Bạn bè (theo dõi lẫn nhau)",
+  FOLLOWER_OF_CREATOR: "Người theo dõi",
+  SELF_ONLY: "Chỉ mình tôi"
+};
+
+async function loadCreatorInfo() {
+  privacySelect.replaceChildren(new Option("Chọn quyền riêng tư", ""));
+  privacySelect.disabled = true;
+  tiktokConnected = false;
+  updatePostButton();
+  if (!CREATOR_INFO_URL) {
+    privacyNotice.textContent = "Cần cấu hình webhook Creator Info trong n8n trước khi mở quyền riêng tư.";
+    return;
+  }
+  try {
+    const response = await fetch(CREATOR_INFO_URL, { credentials: "include", cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const result = await response.json();
+    const choices = result.privacy_level_options ?? result.data?.privacy_level_options;
+    if (result.connected !== true || !Array.isArray(choices) || choices.length === 0) {
+      throw new Error("Chưa xác minh kết nối hoặc thiếu quyền riêng tư");
+    }
+    for (const value of choices) {
+      if (Object.hasOwn(privacyNames, value)) {
+        privacySelect.add(new Option(privacyNames[value], value));
+      }
+    }
+    if (privacySelect.options.length <= 1) throw new Error("Không có quyền riêng tư được hỗ trợ");
+    tiktokConnected = true;
+    privacySelect.disabled = false;
+    tiktokStatus.textContent = "Trạng thái: Đã xác minh kết nối TikTok ✓";
+    tiktokStatus.classList.add("connected");
+    creatorBox.style.display = "block";
+    connectTikTok.textContent = "Kết nối lại TikTok";
+    privacyNotice.textContent = "Chọn quyền riêng tư TikTok cho phép. Đăng công khai còn phụ thuộc trạng thái xét duyệt API.";
+  } catch (error) {
+    tiktokStatus.textContent = "Trạng thái: Chưa xác minh kết nối với n8n";
+    tiktokStatus.classList.remove("connected");
+    creatorBox.style.display = "none";
+    privacyNotice.textContent = "Không tải được Creator Info: " + error.message;
+  }
+  updatePostButton();
+}
 
 
 /* =========================
@@ -406,33 +455,10 @@ const params =
 
 
 if (params.get("tiktok") === "connected") {
-
-  tiktokConnected = true;
-
-  tiktokStatus.textContent =
-    "Trạng thái: Đã kết nối TikTok ✓";
-
-  tiktokStatus.classList.add("connected");
-
-  creatorBox.style.display = "block";
-
-  connectTikTok.textContent =
-    "Kết nối lại TikTok";
-
-
-  /* Demo hiện tại sử dụng SELF_ONLY */
-
-  privacySelect.value =
-    "SELF_ONLY";
-
-
-  history.replaceState(
-    {},
-    document.title,
-    window.location.pathname
-  );
-
+  tiktokStatus.textContent = "TikTok đã chuyển về website. Đang chờ xác minh với n8n.";
+  history.replaceState({}, document.title, window.location.pathname);
 }
+loadCreatorInfo();
 
 
 /* =========================
@@ -667,7 +693,7 @@ postButton.addEventListener(
     */
 
     postNotice.textContent =
-      "Nội dung đã được xác nhận. Đang chờ kết nối với dịch vụ đăng TikTok.";
+      "Đây mới là bước chuẩn bị. Chưa có kết nối gửi bài tới TikTok. Không có bài đăng nào được tạo.";
 
   }
 );
