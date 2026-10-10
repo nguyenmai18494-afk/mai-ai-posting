@@ -1,737 +1,195 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Mai AI Posting</title>
-
-  <!-- Biểu tượng chính thức của Mai AI Posting -->
-  <link rel="icon" type="image/png" href="mai-ai-posting-icon.png">
-  <link rel="shortcut icon" type="image/png" href="mai-ai-posting-icon.png">
-  <link rel="apple-touch-icon" href="mai-ai-posting-icon.png">
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px 50px;
-    }
-
-    h1 {
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 22px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
-    }
-
-    h2 {
-      margin-top: 0;
-      font-size: 22px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-top: 18px;
-      margin-bottom: 8px;
-    }
-
-    input[type="text"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      font-size: 15px;
-      background: white;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    input[type="file"] {
-      margin-top: 5px;
-    }
-
-    button {
-      border: none;
-      border-radius: 9px;
-      padding: 13px 20px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .btn-connect {
-      background: #111827;
-      color: white;
-    }
-
-    .btn-post {
-      background: #111827;
-      color: white;
-      margin-top: 20px;
-    }
-
-    .btn-post:disabled {
-      background: #c7cdd5;
-      cursor: not-allowed;
-    }
-
-    .status {
-      margin-top: 16px;
-      padding: 13px 15px;
-      border-radius: 9px;
-      background: #f3f4f6;
-    }
-
-    .status.connected {
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
-    }
-
-    .notice {
-      margin-top: 15px;
-      padding: 13px 15px;
-      border-radius: 9px;
-      background: #fff7ed;
-      color: #c2410c;
-      border: 1px solid #fed7aa;
-    }
-
-    .success {
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
-    }
-
-    #mediaPreview {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-    }
-
-    #previewImage,
-    #previewVideo {
-      display: none;
-      max-width: 360px;
-      max-height: 360px;
-      width: auto;
-      height: auto;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .file-info {
-      margin-top: 10px;
-      color: #4b5563;
-      font-size: 14px;
-    }
-
-    .creator-box {
-      display: none;
-      margin-top: 15px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      color: #047857;
-    }
-
-    .warning {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #92400e;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mai AI Posting</title>
+<link rel="icon" type="image/png" href="mai-ai-posting-icon.png">
+<link rel="shortcut icon" type="image/png" href="mai-ai-posting-icon.png">
+<link rel="apple-touch-icon" href="mai-ai-posting-icon.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#1f2937}.container{max-width:1000px;margin:40px auto;padding:0 20px 50px}h1{margin-bottom:8px}.subtitle{color:#6b7280;margin-bottom:30px}.card{background:white;border-radius:16px;padding:28px;margin-bottom:22px;box-shadow:0 5px 18px rgba(0,0,0,.06)}h2{margin-top:0;font-size:22px}label{display:block;font-weight:bold;margin-top:18px;margin-bottom:8px}input[type="text"],input[type="email"],input[type="password"],textarea,select{width:100%;padding:13px 14px;border:1px solid #d1d5db;border-radius:9px;font-size:15px;background:white}textarea{min-height:120px;resize:vertical}input[type="file"]{margin-top:5px}button{border:0;border-radius:9px;padding:13px 20px;font-size:15px;font-weight:bold;cursor:pointer}.btn-connect,.btn-post,.btn-login{background:#111827;color:white}.btn-post{margin-top:20px}button:disabled{background:#c7cdd5;cursor:not-allowed}.status{margin-top:16px;padding:13px 15px;border-radius:9px;background:#f3f4f6}.status.connected,.success{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}.notice{margin-top:15px;padding:13px 15px;border-radius:9px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}#mediaPreview{display:none;margin-top:15px;padding:15px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px}#previewImage,#previewVideo{display:none;max-width:360px;max-height:360px;width:auto;height:auto;border-radius:12px;border:1px solid #e5e7eb}.file-info{margin-top:10px;color:#4b5563;font-size:14px}.creator-box{display:none;margin-top:15px;padding:14px;border-radius:10px;background:#ecfdf5;border:1px solid #a7f3d0;color:#047857}.warning{margin-top:10px;font-size:14px;color:#92400e}.auth-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}.auth-note{font-size:13px;color:#6b7280}#appArea{display:none}#authCard{max-width:540px;margin:0 auto 22px}#logoutButton{background:#e5e7eb;color:#111827}#sessionBar{display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}#authMessage{white-space:pre-wrap}
+</style>
 </head>
-
 <body>
-
 <div class="container">
-
-  <h1>Mai AI Posting</h1>
-
-  <div class="subtitle">
-    Kết nối TikTok, chuẩn bị nội dung và xác nhận trước khi đăng.
-  </div>
-
-
-  <!-- PHẦN 1 -->
-  <div class="card">
-
-    <h2>1. Kết nối tài khoản TikTok</h2>
-
-    <p>
-      Kết nối tài khoản TikTok để ứng dụng có thể sử dụng
-      Content Posting API.
-    </p>
-
-    <button
-      class="btn-connect"
-      id="connectTikTok"
-      type="button"
-    >
-      Kết nối với TikTok
-    </button>
-
-    <div
-      class="status"
-      id="tiktokStatus"
-    >
-      Trạng thái: Chưa kết nối TikTok
-    </div>
-
-    <div
-      class="creator-box"
-      id="creatorBox"
-    >
-      Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.
-    </div>
-
-  </div>
-
-
-  <!-- PHẦN 2 -->
-  <div class="card">
-
-    <h2>2. Chuẩn bị nội dung</h2>
-
-    <label for="title">
-      Tiêu đề
-    </label>
-
-    <input
-      id="title"
-      type="text"
-      placeholder="Nhập tiêu đề bài đăng"
-    >
-
-
-    <label for="description">
-      Nội dung
-    </label>
-
-    <textarea
-      id="description"
-      placeholder="Nhập nội dung bài đăng"
-    ></textarea>
-
-
-    <label for="media">
-      Chọn ảnh hoặc video
-    </label>
-
-    <input
-      id="media"
-      type="file"
-      accept="image/*,video/*"
-    >
-
-
-    <div id="mediaPreview">
-
-      <img
-        id="previewImage"
-        alt="Ảnh xem trước"
-      >
-
-      <video
-        id="previewVideo"
-        controls
-      ></video>
-
-      <div
-        class="file-info"
-        id="fileInfo"
-      ></div>
-
-    </div>
-
-
-    <label for="privacy">
-      Quyền riêng tư
-    </label>
-
-    <select id="privacy">
-
-      <option value="">
-        Chọn quyền riêng tư
-      </option>
-
-      <!-- Danh sách sẽ được lấy từ Creator Info qua n8n. -->
-
-    </select>
-
-    <div class="warning" id="privacyNotice">
-      Chưa cấu hình địa chỉ API Creator Info của n8n. Không thể chọn quyền riêng tư cho đến khi xác minh dữ liệu trực tiếp.
-    </div>
-
-  </div>
-
-
-  <!-- PHẦN 3 -->
-  <div class="card">
-
-    <h2>3. Xác nhận đăng nội dung</h2>
-
-    <p>
-      Người dùng cần kiểm tra nội dung và chủ động xác nhận
-      trước khi nội dung được gửi tới TikTok.
-    </p>
-
-    <button
-      class="btn-post"
-      id="postButton"
-      type="button"
-      disabled
-    >
-      Đăng lên TikTok
-    </button>
-
-    <div
-      class="notice"
-      id="postNotice"
-    >
-      Hãy kết nối TikTok, chọn nội dung, tệp và quyền riêng tư trước khi đăng.
-    </div>
-
-  </div>
-
+<h1>Mai AI Posting</h1>
+<div class="subtitle">Kết nối TikTok, chuẩn bị nội dung và xác nhận trước khi đăng.</div>
+<div class="card" id="authCard">
+<h2>Đăng nhập Mai AI Posting</h2>
+<p>Đăng nhập bằng tài khoản đã tạo trong Firebase Authentication.</p>
+<form id="loginForm">
+<label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Mật khẩu</label><input id="password" type="password" autocomplete="current-password" required>
+<div class="auth-actions"><button class="btn-login" id="loginButton" type="submit">Đăng nhập</button></div>
+</form>
+<div class="status" id="authMessage" role="status" aria-live="polite">Đang kiểm tra phiên đăng nhập...</div>
+<p class="auth-note">Ứng dụng sẽ ghi nhớ phiên đăng nhập trên thiết bị này. Không chia sẻ mật khẩu với người khác.</p>
 </div>
-
-
-<script>
-
-const TIKTOK_LOGIN_URL =
-  "https://phimai1912.app.n8n.cloud/webhook/tiktok-login";
-
-// Chỉ điền URL webhook GET an toàn sau khi tạo trong n8n.
-// Endpoint phải kiểm tra phiên đăng nhập trên máy chủ, gọi Creator Info
-// bằng token lưu trên máy chủ, và trả về JSON, KHÔNG trả access_token.
-const CREATOR_INFO_URL = "https://phimai1912.app.n8n.cloud/webhook/tiktok-creator-info-test";
-
-
-const connectTikTok =
-  document.getElementById("connectTikTok");
-
-const tiktokStatus =
-  document.getElementById("tiktokStatus");
-
-const creatorBox =
-  document.getElementById("creatorBox");
-
-const titleInput =
-  document.getElementById("title");
-
-const descriptionInput =
-  document.getElementById("description");
-
-const mediaInput =
-  document.getElementById("media");
-
-const privacySelect =
-  document.getElementById("privacy");
-
-const postButton =
-  document.getElementById("postButton");
-
-const postNotice =
-  document.getElementById("postNotice");
-
-const mediaPreview =
-  document.getElementById("mediaPreview");
-
-const previewImage =
-  document.getElementById("previewImage");
-
-const previewVideo =
-  document.getElementById("previewVideo");
-
-const fileInfo =
-  document.getElementById("fileInfo");
-
-
-let tiktokConnected = false;
-let currentPreviewUrl = null;
-const privacyNotice = document.getElementById("privacyNotice");
-const privacyNames = {
-  PUBLIC_TO_EVERYONE: "Công khai",
-  MUTUAL_FOLLOW_FRIENDS: "Bạn bè (theo dõi lẫn nhau)",
-  FOLLOWER_OF_CREATOR: "Người theo dõi",
-  SELF_ONLY: "Chỉ mình tôi"
-};
-
-async function loadCreatorInfo() {
-  privacySelect.replaceChildren(new Option("Chọn quyền riêng tư", ""));
-  privacySelect.disabled = true;
-  tiktokConnected = false;
-  updatePostButton();
-  if (!CREATOR_INFO_URL) {
-    privacyNotice.textContent = "Cần cấu hình webhook Creator Info trong n8n trước khi mở quyền riêng tư.";
-    return;
-  }
-  try {
-    const response = await fetch(CREATOR_INFO_URL, { credentials: "include", cache: "no-store" });
-    if (!response.ok) throw new Error("HTTP " + response.status);
-    const result = await response.json();
-    const choices = result.privacy_level_options ?? result.data?.privacy_level_options;
-    if (result.connected !== true || !Array.isArray(choices) || choices.length === 0) {
-      throw new Error("Chưa xác minh kết nối hoặc thiếu quyền riêng tư");
-    }
-    for (const value of choices) {
-      if (Object.hasOwn(privacyNames, value)) {
-        privacySelect.add(new Option(privacyNames[value], value));
-      }
-    }
-    if (privacySelect.options.length <= 1) throw new Error("Không có quyền riêng tư được hỗ trợ");
-    tiktokConnected = true;
-    privacySelect.disabled = false;
-    tiktokStatus.textContent = "Trạng thái: Đã xác minh kết nối TikTok ✓";
-    tiktokStatus.classList.add("connected");
-    creatorBox.style.display = "block";
-    connectTikTok.textContent = "Kết nối lại TikTok";
-    privacyNotice.textContent = "Chọn quyền riêng tư TikTok cho phép. Đăng công khai còn phụ thuộc trạng thái xét duyệt API.";
-  } catch (error) {
-    tiktokStatus.textContent = "Trạng thái: Chưa xác minh kết nối với n8n";
-    tiktokStatus.classList.remove("connected");
-    creatorBox.style.display = "none";
-    privacyNotice.textContent = "Không tải được Creator Info: " + error.message;
-  }
-  updatePostButton();
-}
-
-
-/* =========================
-   KẾT NỐI TIKTOK
-========================= */
-
-connectTikTok.addEventListener(
-  "click",
-  function () {
-
-    window.location.href =
-      TIKTOK_LOGIN_URL;
-
-  }
-);
-
-
-/* =========================
-   KIỂM TRA CALLBACK
-========================= */
-
-const params =
-  new URLSearchParams(window.location.search);
-
-
-if (params.get("tiktok") === "connected") {
-  tiktokStatus.textContent = "TikTok đã chuyển về website. Đang chờ xác minh với n8n.";
-  history.replaceState({}, document.title, window.location.pathname);
-}
-loadCreatorInfo();
-
-
-/* =========================
-   XEM TRƯỚC ẢNH / VIDEO
-========================= */
-
-mediaInput.addEventListener(
-  "change",
-  function () {
-
-    const file =
-      mediaInput.files[0];
-
-
-    if (currentPreviewUrl) {
-
-      URL.revokeObjectURL(
-        currentPreviewUrl
-      );
-
-      currentPreviewUrl = null;
-
-    }
-
-
-    if (!file) {
-
-      mediaPreview.style.display =
-        "none";
-
-      previewImage.style.display =
-        "none";
-
-      previewVideo.style.display =
-        "none";
-
-      fileInfo.textContent =
-        "";
-
-      updatePostButton();
-
-      return;
-
-    }
-
-
-    currentPreviewUrl =
-      URL.createObjectURL(file);
-
-
-    mediaPreview.style.display =
-      "block";
-
-
-    fileInfo.textContent =
-      "Tệp đã chọn: " + file.name;
-
-
-    if (file.type.startsWith("image/")) {
-
-      previewVideo.pause();
-
-      previewVideo.removeAttribute(
-        "src"
-      );
-
-      previewVideo.style.display =
-        "none";
-
-
-      previewImage.src =
-        currentPreviewUrl;
-
-      previewImage.style.display =
-        "block";
-
-    }
-
-    else if (file.type.startsWith("video/")) {
-
-      previewImage.removeAttribute(
-        "src"
-      );
-
-      previewImage.style.display =
-        "none";
-
-
-      previewVideo.src =
-        currentPreviewUrl;
-
-      previewVideo.style.display =
-        "block";
-
-    }
-
-    else {
-
-      mediaPreview.style.display =
-        "none";
-
-      alert(
-        "Vui lòng chọn ảnh hoặc video hợp lệ."
-      );
-
-    }
-
-
-    updatePostButton();
-
-  }
-);
-
-
-/* =========================
-   KIỂM TRA ĐIỀU KIỆN ĐĂNG
-========================= */
-
-function updatePostButton() {
-
-  const hasTitle =
-    titleInput.value.trim() !== "";
-
-  const hasDescription =
-    descriptionInput.value.trim() !== "";
-
-  const hasMedia =
-    mediaInput.files.length > 0;
-
-  const hasPrivacy =
-    privacySelect.value !== "";
-
-
-  const ready =
-    tiktokConnected &&
-    hasTitle &&
-    hasDescription &&
-    hasMedia &&
-    hasPrivacy;
-
-
-  postButton.disabled =
-    !ready;
-
-
-  if (!tiktokConnected) {
-
-    postNotice.textContent =
-      "Hãy kết nối tài khoản TikTok trước.";
-
-    return;
-
-  }
-
-
-  if (!hasTitle || !hasDescription) {
-
-    postNotice.textContent =
-      "Hãy nhập tiêu đề và nội dung bài đăng.";
-
-    return;
-
-  }
-
-
-  if (!hasMedia) {
-
-    postNotice.textContent =
-      "Hãy chọn ảnh hoặc video.";
-
-    return;
-
-  }
-
-
-  if (!hasPrivacy) {
-
-    postNotice.textContent =
-      "Hãy chọn quyền riêng tư.";
-
-    return;
-
-  }
-
-
-  postNotice.textContent =
-    "Nội dung đã sẵn sàng. Hãy kiểm tra trước khi xác nhận đăng.";
-
-  postNotice.classList.add(
-    "success"
-  );
-
-}
-
-
-/* =========================
-   THEO DÕI THAY ĐỔI
-========================= */
-
-titleInput.addEventListener(
-  "input",
-  updatePostButton
-);
-
-descriptionInput.addEventListener(
-  "input",
-  updatePostButton
-);
-
-privacySelect.addEventListener(
-  "change",
-  updatePostButton
-);
-
-
-/* =========================
-   NÚT ĐĂNG
-========================= */
-
-postButton.addEventListener(
-  "click",
-  function () {
-
-    /*
-      Chưa gửi bài ở bước này.
-
-      Bước tiếp theo sẽ nối nút này
-      với Webhook2 của n8n.
-
-      Không đặt access_token hoặc
-      Client Secret trong file HTML.
-    */
-
-    postNotice.textContent =
-      "Đây mới là bước chuẩn bị. Chưa có kết nối gửi bài tới TikTok. Không có bài đăng nào được tạo.";
-
-  }
-);
-
-updatePostButton();
-
-</script>
-
-<!-- FOOTER CHÍNH THỨC MAI AI POSTING -->
-<footer style="
-  max-width: 1000px;
-  margin: 20px auto 40px;
-  padding: 24px 20px;
-  text-align: center;
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.7;
-  border-top: 1px solid #e5e7eb;
-">
-  <p>
-    <strong>Mai AI Posting</strong> giúp người dùng kết nối TikTok,
-    chuẩn bị, quản lý và chủ động xác nhận nội dung trước khi đăng.
-  </p>
-
-  <p>
-    <a href="terms.html" style="color:#2563eb; text-decoration:none;">
-      Điều khoản dịch vụ
-    </a>
-    &nbsp; | &nbsp;
-    <a href="privacy.html" style="color:#2563eb; text-decoration:none;">
-      Chính sách bảo mật
-    </a>
-  </p>
-
-  <p>
-    © 2026 Mai AI Posting. All rights reserved.
-  </p>
+<div id="appArea">
+<div class="card" id="sessionBar"><span id="signedInAs"></span><button id="logoutButton" type="button">Đăng xuất</button></div>
+<div class="card">
+<h2>1. Kết nối tài khoản TikTok</h2>
+<p>Kết nối tài khoản TikTok để ứng dụng có thể sử dụng Content Posting API.</p>
+<button class="btn-connect" id="connectTikTok" type="button">Kết nối với TikTok</button>
+<div class="status" id="tiktokStatus">Trạng thái: Chưa kết nối TikTok</div>
+<div class="creator-box" id="creatorBox">Tài khoản TikTok đã cấp quyền thành công cho Mai AI Posting.</div>
+</div>
+<div class="card">
+<h2>2. Chuẩn bị nội dung</h2>
+<label for="title">Tiêu đề</label><input id="title" type="text" placeholder="Nhập tiêu đề bài đăng">
+<label for="description">Nội dung</label><textarea id="description" placeholder="Nhập nội dung bài đăng"></textarea>
+<label for="media">Chọn ảnh hoặc video</label><input id="media" type="file" accept="image/*,video/*">
+<div id="mediaPreview"><img id="previewImage" alt="Ảnh xem trước"><video id="previewVideo" controls></video><div class="file-info" id="fileInfo"></div></div>
+<label for="privacy">Quyền riêng tư</label>
+<select id="privacy" disabled><option value="">Chọn quyền riêng tư</option></select>
+<div class="warning" id="privacyNotice">Chưa xác minh được Creator Info với n8n.</div>
+</div>
+<div class="card">
+<h2>3. Xác nhận đăng nội dung</h2>
+<p>Người dùng cần kiểm tra nội dung và chủ động xác nhận trước khi nội dung được gửi tới TikTok.</p>
+<button class="btn-post" id="postButton" type="button" disabled>Đăng lên TikTok</button>
+<div class="notice" id="postNotice">Hãy kết nối TikTok, chọn nội dung, tệp và quyền riêng tư trước khi đăng.</div>
+</div>
+</div>
+</div>
+<footer style="max-width:1000px;margin:20px auto 40px;padding:24px 20px;text-align:center;color:#6b7280;font-size:14px;line-height:1.7;border-top:1px solid #e5e7eb">
+<p><strong>Mai AI Posting</strong> giúp người dùng kết nối TikTok, chuẩn bị, quản lý và chủ động xác nhận nội dung trước khi đăng.</p>
+<p><a href="terms.html" style="color:#2563eb;text-decoration:none">Điều khoản dịch vụ</a> &nbsp; | &nbsp; <a href="privacy.html" style="color:#2563eb;text-decoration:none">Chính sách bảo mật</a></p>
+<p>© 2026 Mai AI Posting. All rights reserved.</p>
 </footer>
-
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+import { getAuth, setPersistence, browserLocalPersistence, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+const firebaseConfig = {
+  apiKey: 'AIzaSyD96QnZXfa_hSK1bMj7XKLxQvZl4PaiAeI',
+  authDomain: 'mai-ai-posting.firebaseapp.com',
+  projectId: 'mai-ai-posting',
+  storageBucket: 'mai-ai-posting.firebasestorage.app',
+  messagingSenderId: '1025099623392',
+  appId: '1:1025099623392:web:7a8fd740a9f5484c615985',
+  measurementId: 'G-JGCR37ZGT6'
+};
+const auth = getAuth(initializeApp(firebaseConfig));
+const TIKTOK_LOGIN_URL = 'https://phimai1912.app.n8n.cloud/webhook/tiktok-login';
+const CREATOR_INFO_URL = 'https://phimai1912.app.n8n.cloud/webhook/tiktok-creator-info-test';
+const $ = id => document.getElementById(id);
+const loginForm=$('loginForm'),loginButton=$('loginButton'),authMessage=$('authMessage'),authCard=$('authCard'),appArea=$('appArea'),sessionBar=$('sessionBar'),signedInAs=$('signedInAs');
+const connectTikTok=$('connectTikTok'),tiktokStatus=$('tiktokStatus'),creatorBox=$('creatorBox'),titleInput=$('title'),descriptionInput=$('description'),mediaInput=$('media'),privacySelect=$('privacy'),postButton=$('postButton'),postNotice=$('postNotice'),mediaPreview=$('mediaPreview'),previewImage=$('previewImage'),previewVideo=$('previewVideo'),fileInfo=$('fileInfo'),privacyNotice=$('privacyNotice');
+let tiktokConnected=false,currentPreviewUrl=null;
+const privacyNames={PUBLIC_TO_EVERYONE:'Công khai',MUTUAL_FOLLOW_FRIENDS:'Bạn bè (theo dõi lẫn nhau)',FOLLOWER_OF_CREATOR:'Người theo dõi',SELF_ONLY:'Chỉ mình tôi'};
+let creatorRequest=0;
+function resetTikTok(){
+  creatorRequest++;
+  tiktokConnected=false;
+  privacySelect.replaceChildren(new Option('Chọn quyền riêng tư',''));
+  privacySelect.disabled=true;
+  tiktokStatus.textContent='Trạng thái: Chưa xác minh kết nối TikTok';
+  tiktokStatus.classList.remove('connected');
+  creatorBox.style.display='none';
+  connectTikTok.textContent='Kết nối với TikTok';
+  privacyNotice.textContent='Chưa xác minh được Creator Info với n8n.';
+  updatePostButton();
+}
+loginForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  loginButton.disabled=true;
+  authMessage.textContent='Đang đăng nhập...';
+  try{
+    await setPersistence(auth,browserLocalPersistence);
+    await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);
+    $('password').value='';
+  }catch(error){
+    const messages={
+      'auth/invalid-credential':'Email hoặc mật khẩu chưa chính xác.',
+      'auth/invalid-email':'Địa chỉ email không hợp lệ.',
+      'auth/too-many-requests':'Có quá nhiều lần thử. Vui lòng đợi rồi thử lại.',
+      'auth/network-request-failed':'Không thể kết nối mạng. Vui lòng thử lại.',
+      'auth/operation-not-allowed':'Chưa bật đăng nhập Email/Password trong Firebase.'
+    };
+    authMessage.textContent=messages[error.code]||'Đăng nhập không thành công: '+error.code;
+  }finally{loginButton.disabled=false;}
+});
+$('logoutButton').addEventListener('click',async()=>{
+  try{await signOut(auth);}catch(error){alert('Không thể đăng xuất: '+error.message);}
+});
+onAuthStateChanged(auth,user=>{
+  resetTikTok();
+  if(user){
+    authCard.style.display='none';appArea.style.display='block';sessionBar.style.display='flex';
+    signedInAs.textContent='Đã đăng nhập: '+(user.email||'Tài khoản Firebase');
+    loadCreatorInfo();
+  }else{
+    appArea.style.display='none';sessionBar.style.display='none';authCard.style.display='block';
+    authMessage.textContent='Vui lòng đăng nhập để tiếp tục.';
+  }
+},error=>{authMessage.textContent='Không kiểm tra được phiên đăng nhập: '+error.message;});
+async function loadCreatorInfo(){
+  const requestId=++creatorRequest;
+  privacySelect.replaceChildren(new Option('Chọn quyền riêng tư',''));
+  privacySelect.disabled=true;tiktokConnected=false;updatePostButton();
+  if(!CREATOR_INFO_URL){privacyNotice.textContent='Cần cấu hình webhook Creator Info trong n8n.';return;}
+  try{
+    // Firebase sign-in protects the page UI only. n8n must independently verify Firebase ID tokens
+    // before using server-side TikTok credentials. Existing test webhook may not support this yet.
+    const response=await fetch(CREATOR_INFO_URL,{credentials:'include',cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const result=await response.json();
+    if(requestId!==creatorRequest||!auth.currentUser)return;
+    const choices=result.privacy_level_options??result.data?.privacy_level_options;
+    if(result.connected!==true||!Array.isArray(choices)||choices.length===0)throw new Error('Chưa xác minh kết nối hoặc thiếu quyền riêng tư');
+    for(const value of choices)if(Object.hasOwn(privacyNames,value))privacySelect.add(new Option(privacyNames[value],value));
+    if(privacySelect.options.length<=1)throw new Error('Không có quyền riêng tư được hỗ trợ');
+    tiktokConnected=true;privacySelect.disabled=false;
+    tiktokStatus.textContent='Trạng thái: Đã xác minh kết nối TikTok ✓';tiktokStatus.classList.add('connected');
+    creatorBox.style.display='block';connectTikTok.textContent='Kết nối lại TikTok';
+    privacyNotice.textContent='Chọn quyền riêng tư TikTok cho phép. Đăng công khai còn phụ thuộc trạng thái xét duyệt API.';
+  }catch(error){
+    if(requestId!==creatorRequest||!auth.currentUser)return;
+    tiktokStatus.textContent='Trạng thái: Chưa xác minh kết nối với n8n';tiktokStatus.classList.remove('connected');
+    creatorBox.style.display='none';privacyNotice.textContent='Không tải được Creator Info: '+error.message;
+  }
+  updatePostButton();
+}
+connectTikTok.addEventListener('click',()=>{if(auth.currentUser)window.location.href=TIKTOK_LOGIN_URL;});
+const params=new URLSearchParams(window.location.search);
+if(params.get('tiktok')==='connected'){
+  tiktokStatus.textContent='TikTok đã chuyển về website. Đang chờ xác minh với n8n.';
+  history.replaceState({},document.title,window.location.pathname+window.location.hash);
+}
+mediaInput.addEventListener('change',()=>{
+  const file=mediaInput.files[0];
+  if(currentPreviewUrl){URL.revokeObjectURL(currentPreviewUrl);currentPreviewUrl=null;}
+  previewVideo.pause();previewVideo.removeAttribute('src');previewImage.removeAttribute('src');
+  previewImage.style.display='none';previewVideo.style.display='none';mediaPreview.style.display='none';fileInfo.textContent='';
+  if(!file){updatePostButton();return;}
+  if(!file.type.startsWith('image/')&&!file.type.startsWith('video/')){mediaInput.value='';alert('Vui lòng chọn ảnh hoặc video hợp lệ.');updatePostButton();return;}
+  currentPreviewUrl=URL.createObjectURL(file);mediaPreview.style.display='block';fileInfo.textContent='Tệp đã chọn: '+file.name;
+  if(file.type.startsWith('image/')){previewImage.src=currentPreviewUrl;previewImage.style.display='block';}
+  else{previewVideo.src=currentPreviewUrl;previewVideo.style.display='block';}
+  updatePostButton();
+});
+function updatePostButton(){
+  const hasTitle=titleInput.value.trim()!=='';
+  const hasDescription=descriptionInput.value.trim()!=='';
+  const hasMedia=mediaInput.files.length>0;
+  const hasPrivacy=privacySelect.value!=='';
+  postButton.disabled=!(auth.currentUser&&tiktokConnected&&hasTitle&&hasDescription&&hasMedia&&hasPrivacy);
+  postNotice.classList.remove('success');
+  if(!tiktokConnected)postNotice.textContent='Hãy kết nối tài khoản TikTok trước.';
+  else if(!hasTitle||!hasDescription)postNotice.textContent='Hãy nhập tiêu đề và nội dung bài đăng.';
+  else if(!hasMedia)postNotice.textContent='Hãy chọn ảnh hoặc video.';
+  else if(!hasPrivacy)postNotice.textContent='Hãy chọn quyền riêng tư.';
+  else{postNotice.textContent='Nội dung đã sẵn sàng. Hãy kiểm tra trước khi xác nhận đăng.';postNotice.classList.add('success');}
+}
+titleInput.addEventListener('input',updatePostButton);
+descriptionInput.addEventListener('input',updatePostButton);
+privacySelect.addEventListener('change',updatePostButton);
+postButton.addEventListener('click',()=>{
+  postNotice.classList.remove('success');
+  postNotice.textContent='Đây mới là bước chuẩn bị. Chưa có kết nối gửi bài tới TikTok. Không có bài đăng nào được tạo.';
+});
+updatePostButton();
+</script>
 </body>
 </html>
