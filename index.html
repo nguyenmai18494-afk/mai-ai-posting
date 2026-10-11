@@ -28,6 +28,10 @@
 </div>
 <div id="appArea">
 <div class="card" id="sessionBar"><span id="signedInAs"></span><button id="logoutButton" type="button">Đăng xuất</button></div>
+  <div class="card">
+  <button id="testFirebaseButton" type="button">Kiểm tra xác thực Firebase</button>
+  <p id="testFirebaseResult">Chưa kiểm tra.</p>
+</div>
 <div class="card">
 <h2>1. Kết nối tài khoản TikTok</h2>
 <p>Kết nối tài khoản TikTok để ứng dụng có thể sử dụng Content Posting API.</p>
@@ -124,7 +128,41 @@ onAuthStateChanged(auth,user=>{
     authMessage.textContent='Vui lòng đăng nhập để tiếp tục.';
   }
 },error=>{authMessage.textContent='Không kiểm tra được phiên đăng nhập: '+error.message;});
-async function loadCreatorInfo(){
+$('testFirebaseButton').addEventListener('click', async () => {
+  const result = $('testFirebaseResult');
+  result.textContent = 'Đang kiểm tra Firebase...';
+
+  try {
+    const user = auth.currentUser;
+
+    if (!user) {
+      result.textContent = 'Bạn chưa đăng nhập Firebase.';
+      return;
+    }
+
+    const token = await user.getIdToken();
+
+    const response = await fetch(
+      'https://mai-ai-firebase-auth.phi199219942019.workers.dev/verify',
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    result.textContent = data.authorized === true
+      ? 'Xác thực Firebase thành công!'
+      : 'Xác thực chưa thành công: ' + (data.code || response.status);
+
+  } catch (error) {
+    result.textContent = 'Không kết nối được Cloudflare: ' + error.message;
+  }
+});
+  async function loadCreatorInfo(){
   const requestId=++creatorRequest;
   privacySelect.replaceChildren(new Option('Chọn quyền riêng tư',''));
   privacySelect.disabled=true;tiktokConnected=false;updatePostButton();
